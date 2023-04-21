@@ -1,16 +1,33 @@
 package u06lab.code
 
+import java.util
+import java.util.Collection
 /** 1) Implement trait Functions with an object FunctionsImpl such that the code in TryFunctions works correctly. */
 
 trait Functions:
   def sum(a: List[Double]): Double
   def concat(a: Seq[String]): String
   def max(a: List[Int]): Int // gives Int.MinValue if a is empty
+  def combine[A : Combiner](a : Collection[A]) : A
+
 
 object FunctionsImpl extends Functions:
+  override def combine[A : Combiner](coll : Collection[A]): A =
+    summon[Combiner[A]].unit
+//    if coll.isEmpty then summon[Combiner[A]].unit
+ //summon[Combiner[A]].combine(_, _)
   override def sum(a: List[Double]): Double = ???
+//    this.combine(a)
+//    if a.isEmpty then 0
+//    else a.sum
   override def concat(a: Seq[String]): String = ???
+//    if a.isEmpty then ""
+//    else a.toList reduce(_ + _)
+
   override def max(a: List[Int]): Int = ???
+//    if a.isEmpty then Integer.MIN_VALUE
+//    else a.max[Int]
+
 
 /*
  * 2) To apply DRY principle at the best,
@@ -29,11 +46,20 @@ trait Combiner[A]:
   def unit: A
   def combine(a: A, b: A): A
 
+object bho:
+  given Combiner[Double] with
+    override def unit: Double = 0.0
+    override def combine(a: Double, b: Double): Double = a + b
+
+import bho.given_Combiner_Double
+
 @main def checkFunctions(): Unit =
   val f: Functions = FunctionsImpl
-  println(f.sum(List(10.0, 20.0, 30.1))) // 60.1
-  println(f.sum(List())) // 0.0
-  println(f.concat(Seq("a", "b", "c"))) // abc
-  println(f.concat(Seq())) // ""
-  println(f.max(List(-10, 3, -5, 0))) // 3
-  println(f.max(List())) // -2147483648
+//  println(f.sum(List(10.0, 20.0, 30.1))) // 60.1
+//  println(f.sum(List())) // 0.0
+//  println(f.concat(Seq("a", "b", "c"))) // abc
+//  println(f.concat(Seq())) // ""
+//  println(f.max(List(-10, 3, -5, 0))) // 3
+//  println(f.max(List())) // -2147483648
+  f.combine(List(10.0, 20.0, 30.1))
+//  println(combine(List(10.0, 20.0, 30.1)))
