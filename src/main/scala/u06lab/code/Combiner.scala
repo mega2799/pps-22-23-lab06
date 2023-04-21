@@ -45,7 +45,7 @@ trait Combiner[A]:
   def combine(a: A, b: A): A
 //  def combine(b: List[A]): A
 
-object bho:
+object Giver:
   given Combiner[Double] with
     override def unit: Double = 0.0
     override def combine(a: Double, b: Double): Double = a + b
@@ -56,22 +56,23 @@ object bho:
     override def unit: String = ""
     override def combine(a: String, b: String): String = a + b
 
-import bho.given_Combiner_Double
-import bho.given_Combiner_Int
-import bho.given_Combiner_String
+import Giver.given_Combiner_Double
+import Giver.given_Combiner_Int
+import Giver.given_Combiner_String
 
 @main def checkFunctions(): Unit =
   val f: Functions = FunctionsImpl
-//  println(f.sum(List(10.0, 20.0, 30.1))) // 60.1
-//  println(f.sum(List())) // 0.0
-//  println(f.concat(Seq("a", "b", "c"))) // abc
-//  println(f.concat(Seq())) // ""
-//  println(f.max(List(-10, 3, -5, 0))) // 3
-//  println(f.max(List())) // -2147483648
+  println(f.sum(List(10.0, 20.0, 30.1))) // 60.1
+  println(f.sum(List())) // 0.0
+  println(f.concat(Seq("a", "b", "c"))) // abc
+  println(f.concat(Seq())) // ""
+  println(f.max(List(-10, 3, -5, 0))) // 3
+  println(f.max(List())) // -2147483648
+
+    // type class DRY
   println(f.combine(List[Int]())) // 0.0
   println(f.combine(List(10.0, 20.0, 30.1)))
   println(f.combine(List[Double]())) // -2147483648
   println(f.combine(Seq("a", "b", "c").toList)) // abc
   println(f.combine(List[String]())) // ""
   println(f.combine(List(-10, 3, -5, 0))) // 3
-//  println(f.combine(List()))
