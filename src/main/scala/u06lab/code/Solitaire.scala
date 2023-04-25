@@ -36,25 +36,31 @@ object Solitaire extends App:
       (c._1 - 1, c._2 + 1), (c._1 + 1, c._2 - 1) // diagonal
     )
 
-  def inBoardPosition(width : Int = size, height: Int = size)(c : Card) : Boolean =
+  def inBoardPosition(width : Int , height: Int )(c : Card) : Boolean =
     (c._1 >= 0 && c._1 < width) && (c._2 >= 0 && c._2 < height)
 
-  def placeMarks(width : Int = size, height : Int = size)(n : Int = deckSize)(using factory : IterableFactory) : Iterable[Solution] =
+  def placeMarks(width : Int , height : Int )(n : Int )(using factory : IterableFactory) : Iterable[Solution] =
     n match
-      case 0 => factory(Set((width/2 , height/2)))
+      case 1 => factory(Set((width/2 , height/2)))
       case _ =>
         for
-          placedCards <- placeMarks()(n - 1)
-          y <- 0 to size
-          x <- 0 to size
-          card=(x, y)
-//          _ = Console.println("serie: %d \n computing: %s with res: %b".format(n, card, computeMoves(placedCards.last) filter(inBoardPosition()) contains(card)))
-//          _ = Console.println(render(placedCards.toSeq, size, size))
-          _ = Console.println("\n")
-          _ = Console.println(placedCards)
+          placedCards <- placeMarks(width, height)(n - 1)
+//          y <- 0 to size
+//          x <- 0 to size
+//          _ = Console.println(placedCards.last)
+//          _ = Console.println(computeMoves(placedCards.last) filter(inBoardPosition(width, height)))
+//          _ = Console.println("\n")
+          affordablePosition <- computeMoves(placedCards.last) filter(inBoardPosition(width, height))
+          card=affordablePosition
+//          _ = Console.println(card)
+//          _ = Console.println("serie: %d \n computing: %s with res: %b".format(n, card, computeMoves(placedCards.last) filter(inBoardPosition(width, height)) contains(card)))
+//          _ = Console.println(render(placedCards.toSeq, width, height))
+//          _ = Console.println("\n")
+//          _ = Console.println(placedCards)
 //            _ = Console.println(placedCards.last)
 //            _ = Console.println("\n")
-          if computeMoves(placedCards.last) filter(inBoardPosition()) contains(card)
+            if !placedCards.toSeq.contains(card)
+//          if computeMoves(placedCards.last) filter(inBoardPosition()) contains(card)
         yield
           placedCards.toSeq :+ card
 
@@ -62,7 +68,7 @@ object Solitaire extends App:
 //  println(render(solution = placeMarks()().view, width = 5, height = 5))
 
 //  placeMarks()() foreach()
-  placeMarks(3, 3)(9).zipWithIndex foreach((el, index) => println("for solution %d there are %d sol".format(index, el.size)))
+  placeMarks(5, 5)(10).zipWithIndex foreach((el, index) => println("for solution %d there are %d sol".format(index, el.size)))
 
 //  println(placeMarks()().size)
 
