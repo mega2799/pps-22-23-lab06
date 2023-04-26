@@ -17,16 +17,24 @@ class SolitaireTest:
   @Test
   def outOfBOund() =
     assertTrue(
-      sol.inBoardPosition()((1,1))
+      sol.inBoardPosition(5,5)((1,1))
     )
     assertTrue(
-      sol.inBoardPosition()((3, 4))
+      sol.inBoardPosition(5,5)((3, 4))
     )
     assertFalse(
-      sol.inBoardPosition()((-1, 1))
+      sol.inBoardPosition(5,5)((-1, 1))
     )
     assertFalse(
-      sol.inBoardPosition()((3, 5))
+      sol.inBoardPosition(5,5)((3, 5))
+    )
+
+  @Test
+  def luigilambertTest() =
+    println("board 3 * 5 => 13272 solutions")
+    assertEquals(
+      13272,
+      sol.placeMarks(5, 7)(35).size
     )
     
 //  def init() =
