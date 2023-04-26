@@ -5,7 +5,6 @@ type Solution = Iterable[Card]
 type IterableFactory = Solution => Iterable[Solution]
 given IterableFactory = Seq(_).view
 val size = 5
-val deckSize = size * size
 
 object Solitaire extends App:
   def render(solution: Seq[(Int, Int)], width: Int, height: Int): String =
@@ -53,16 +52,11 @@ object Solitaire extends App:
         for
           placedCards <- placeMarks(width, height)(n - 1)
           affordablePosition <- computeMoves(placedCards.last) filter(inBoardPosition(width, height))
-          card=affordablePosition
-            if !placedCards.toSeq.contains(card)
-//          if computeMoves(placedCards.last) filter(inBoardPosition()) contains(card)
+          if !placedCards.toSeq.contains(affordablePosition)
         yield
-          placedCards.toSeq :+ card
+          placedCards.toSeq :+ affordablePosition
 
-//  placeMarks()() foreach()
-//  placeMarks(5, 5)(10).zipWithIndex foreach((el, index) => println("for solution %d there are %d sol".format(index, el.size)))
 //  placeMarks(5, 7)(35).zipWithIndex foreach((el, index) => println("solution %d cards placed: %d ".format(index + 1, el.size)))
   placeMarks(5, 5)(25).zipWithIndex foreach((el, index) => println("solution %d cards placed: %d ".format(index + 1, el.size)))
 
-//  println(placeMarks()().size)
 
