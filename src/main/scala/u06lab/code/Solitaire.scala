@@ -28,19 +28,12 @@ object Solitaire extends App:
     rows.mkString("\n")
 
   def computeMoves(c : Card) =
-  // Luigi lamberti style
     Set(
       (c._1 - 3, c._2), (c._1 + 3, c._2), // horizontal
       (c._1, c._2 - 3), (c._1, c._2 + 3), // vertical
       (c._1 - 2, c._2 - 2), (c._1 + 2, c._2 + 2), // diagonal
       (c._1 - 2, c._2 + 2), (c._1 + 2, c._2 - 2) // diagonal
     )
-//    Set(
-//      (c._1 - 2, c._2), (c._1 + 2, c._2), // horizontal
-//      (c._1, c._2 - 2), (c._1, c._2 + 2), // vertical
-//      (c._1 - 1, c._2 - 1), (c._1 + 1, c._2 + 1), // diagonal
-//      (c._1 - 1, c._2 + 1), (c._1 + 1, c._2 - 1) // diagonal
-//    )
 
   def inBoardPosition(width : Int , height: Int )(c : Card) : Boolean =
     (c._1 >= 0 && c._1 < width) && (c._2 >= 0 && c._2 < height)
