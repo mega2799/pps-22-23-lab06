@@ -9,9 +9,9 @@ class SolitaireTest:
   def sol = Solitaire
   @Test
   def checkComputeMoves() =
-  // old moves took from slides, this are wrong
+  // some moves are out of the board but this tests only the function
     assertEquals(
-      Set((0, 2), (1, 1), (1, 3), (2,0), (2, 4), (3, 1), (3, 3), (4, 2)),
+      Set((5,2), (0,4), (-1,2), (2,-1), (2,5), (4,4), (4,0), (0,0)),
       sol.computeMoves((2,2))
     )
 
